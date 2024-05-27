@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather widget</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="weather-info">
+        <div class="search-box">
+          <input type="search" placeholder="Search city" class="text-box" id="text-box" />
+          <button id="search-button">Search</button>
+          <button id="location-button">
+            <img src="icons/location.svg"alt="location-icon" id="location-icon"/>
+          </button>
+        </div>
+        <div class="current-weather">
+          <h1 class="city-name"></h1>
+          <p class="date"></p>
+          <img src="" alt="Weather Icon" class="weather-icon" />
+          <p class="temperature"></p>
+          <p class="weather-description"></p>
+        </div>
+      </div>
+      <div class="weather-detail">
+        <div class="detail">
+          <div class="humidity">
+            <img src="icons/humidity.svg" alt="Humidity" class="icon">
+            <p></p>
+          </div>
+          <div class="wind">
+            <img src="icons/wind.svg" alt="Wind" class="icon">
+            <p></p>
+          </div>
+          <div class="feels-like">
+            <img src="icons/feels-like.svg" alt="Feels Like" class="icon">
+            <p></p>
+          </div>
+        </div>
+        <div class="weather-forecast"></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <footer>
+      Made with ❤️ by Mulualem T.
+    </footer>
+  </body>
+</html>
