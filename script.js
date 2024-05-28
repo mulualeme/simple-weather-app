@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    const apiKey = '50c2acd53349fabd54f52b93c8650d37'; // Replace with your OpenWeatherMap API key
+    const apiKey = '50c2acd53349fabd54f52b93c8650d37'; 
     let cityTimeZone = null;
 
     function updateTime() {
@@ -60,25 +60,34 @@ $(document).ready(function() {
         $('.weather-forecast').html(forecastHtml);
     }
 
+    function showError(message) {
+        $('.error-message').text(message).show();
+        setTimeout(() => $('.error-message').fadeOut(), 3000);
+    }
+
     function fetchWeather(city) {
         $.getJSON(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayWeather(data);
+                localStorage.setItem('lastCity', city);
+                localStorage.removeItem('lastLocation');
             })
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                // You can display an error message to the user here
+                showError("Enter a correct city name. Please try again.");
             });
 
         $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayForecast(data);
+                localStorage.setItem('lastCity', city);
+                localStorage.removeItem('lastLocation');
             })
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                // You can display an error message to the user here
+                showError("Enter a correct city name. Please try again.");
             });
     }
 
@@ -90,7 +99,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                // You can display an error message to the user here
+                showError("Failed to fetch weather data. Please try again.");
             });
 
         $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
@@ -100,7 +109,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                // You can display an error message to the user here
+                showError("Failed to fetch weather forecast. Please try again.");
             });
     }
 
@@ -109,7 +118,7 @@ $(document).ready(function() {
         if (city) {
             fetchWeather(city);
         } else {
-            // Display an error message or handle the empty input case
+            showError("Please enter a correct city name.");
         }
     });
 
@@ -119,7 +128,7 @@ $(document).ready(function() {
             if (city) {
                 fetchWeather(city);
             } else {
-                // Display an error message or handle the empty input case
+                showError("Please enter a city name.");
             }
         }
     });
@@ -135,7 +144,22 @@ $(document).ready(function() {
         }
     });
 
-    // Initial weather fetch for New York
-    fetchWeather('New York');
+    // Autocomplete setup
+    const availableCities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"];
+    $('#text-box').autocomplete({
+        source: availableCities
+    });
+
+    const lastCity = localStorage.getItem('lastCity');
+    const lastLocation = JSON.parse(localStorage.getItem('lastLocation'));
+
+    if (lastCity) {
+        fetchWeather(lastCity);
+    } else if (lastLocation) {
+        fetchWeatherByLocation(lastLocation.lat, lastLocation.lon);
+    } else {
+        // Initial weather fetch for New York
+        fetchWeather('New York');
+    }
     setInterval(updateTime, 1000);
 });
