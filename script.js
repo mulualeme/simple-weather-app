@@ -68,6 +68,11 @@ $(document).ready(function() {
     }
 
     function fetchWeather(city) {
+        if (!navigator.onLine) {
+            alert("You are currently offline. Please check your internet connection.");
+            return;
+        }
+
         $.getJSON(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayWeather(data);
@@ -77,7 +82,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                showError("Failed to fetch weather data. Please try again.");
+                showError("City not found. Please enter a valid city name.");
             });
 
         $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
@@ -89,11 +94,15 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                showError("Failed to fetch weather data. Please try again.");
+                showError("City not found. Please enter a valid city name.");
             });
     }
 
     function fetchWeatherByLocation(lat, lon) {
+        if (!navigator.onLine) {
+            alert("You are currently offline. Please check your internet connection.");
+            return;
+        }
         $.getJSON(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayWeather(data);
@@ -103,7 +112,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                showError("Failed to fetch weather data. Please try again.");
+                showError("City not found. Please enter a valid city name.");
             });
 
         $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
@@ -113,7 +122,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                showError("Failed to fetch weather forecast. Please try again.");
+                showError("City not found. Please enter a valid city name.");
             });
     }
 
