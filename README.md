@@ -20,4 +20,4 @@ The Weather App is a simple web application that allows users to check the curre
 
 ## Demo Page
 
-https://mulualeme.github.io/simple-weather-app-/
+https://mulualeme.github.io/simple-weather-app/
