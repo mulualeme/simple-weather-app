@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    const apiKey = '50c2acd53349fabd54f52b93c8650d37'; 
+    const apiKey = 'e6102b902279cd3e59773f79fbaeda23'; 
     let cityTimeZone = null;
 
     function updateTime() {
@@ -32,7 +32,9 @@ $(document).ready(function() {
         $('.humidity p').text(`Humidity: ${main.humidity}%`);
         $('.wind p').text(`Wind: ${Math.round(wind.speed)} km/h`);
         $('.feels-like p').text(`Feels like: ${Math.round(main.feels_like)}°C`);
-        cityTimeZone = `Etc/GMT${timezone / 3600 >= 0 ? "-" : "+"}${Math.abs(timezone / 3600)}`;
+        
+        const timezoneOffset = timezone / 3600;
+        cityTimeZone = `Etc/GMT${timezoneOffset >= 0 ? "-" : "+"}${Math.abs(timezoneOffset)}`;
         updateTime();
     }
 
@@ -75,7 +77,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                showError("Enter a correct city name. Please try again.");
+                showError("Failed to fetch weather data. Please try again.");
             });
 
         $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
@@ -87,7 +89,7 @@ $(document).ready(function() {
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
                 console.log("Request Failed: " + err);
-                showError("Enter a correct city name. Please try again.");
+                showError("Failed to fetch weather data. Please try again.");
             });
     }
 
@@ -95,6 +97,8 @@ $(document).ready(function() {
         $.getJSON(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayWeather(data);
+                localStorage.setItem('lastLocation', JSON.stringify({ lat, lon }));
+                localStorage.removeItem('lastCity');
             })
             .fail(function(jqxhr, textStatus, error) {
                 const err = textStatus + ", " + error;
