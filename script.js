@@ -23,9 +23,9 @@ $(document).ready(function() {
     }
 
     function displayWeather(data) {
-        const { main, weather, wind, name, timezone } = data;
+        const { main, weather, wind, name, sys, timezone } = data;
         const iconUrl = getWeatherIcon(weather[0].icon);
-        $('.city-name').text(name);
+        $('.city-name').text(`${name}, ${sys.country}`);
         $('.temperature').text(`${Math.round(main.temp)}°C`);
         $('.weather-description').text(weather[0].description);
         $('.weather-icon').attr('src', iconUrl);
