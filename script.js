@@ -157,7 +157,6 @@ $(document).ready(function() {
         }
     });
 
-    // Autocomplete setup
     const availableCities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"];
     $('#text-box').autocomplete({
         source: availableCities
@@ -171,7 +170,6 @@ $(document).ready(function() {
     } else if (lastLocation) {
         fetchWeatherByLocation(lastLocation.lat, lastLocation.lon);
     } else {
-        // Initial weather fetch for New York
         fetchWeather('New York');
     }
     setInterval(updateTime, 1000);
