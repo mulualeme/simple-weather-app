@@ -244,17 +244,23 @@ footer{
     background-color: white;
     color: black;
     border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .ui-autocomplete li {
     padding: 5px;
     cursor: pointer;
+    font-family: 'inter' , sans-serif;
+    border-radius: 5px;
 }
 
-.ui-autocomplete li.ui-state-focus {
-    background-color: #eee;
-}
-
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    background: #7280CB;
+    font-weight: bold;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+} 
 body.dark-mode .ui-autocomplete {
     background-color: #333;
     color: white;
