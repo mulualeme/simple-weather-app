@@ -73,7 +73,11 @@ $(document).ready(function() {
             return;
         }
 
-        $.getJSON(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
+        const cityParts = city.split(',');
+        const cityName = cityParts[0].trim();
+        const countryCode = cityParts[1] ? cityParts[1].trim() : '';
+
+        $.getJSON(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}${countryCode ? ',' + countryCode : ''}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayWeather(data);
                 localStorage.setItem('lastCity', city);
@@ -85,7 +89,7 @@ $(document).ready(function() {
                 showError("City not found. Please enter a valid city name.");
             });
 
-        $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
+            $.getJSON(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}${countryCode ? ',' + countryCode : ''}&units=metric&appid=${apiKey}`)
             .done(function(data) {
                 displayForecast(data);
                 localStorage.setItem('lastCity', city);
@@ -96,6 +100,7 @@ $(document).ready(function() {
                 console.log("Request Failed: " + err);
                 showError("City not found. Please enter a valid city name.");
             });
+        
     }
 
     function fetchWeatherByLocation(lat, lon) {
@@ -157,14 +162,17 @@ $(document).ready(function() {
         }
     });
 
-    $.getJSON('cities.json', function(data) {
-        citiesList = data;
-        $('#text-box').autocomplete({
-            source: function(request, response) {
-                const results = $.ui.autocomplete.filter(citiesList, request.term);
-                response(results.slice(0, 5)); // limit results to 5
-            }
+    function fetchCitySuggestions(query, callback) {
+        $.getJSON(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`, function(data) {
+            const suggestions = data.map(city => `${city.name}, ${city.country}`);
+            callback(suggestions);
         });
+    }
+
+    $('#text-box').autocomplete({
+        source: function(request, response) {
+            fetchCitySuggestions(request.term, response);
+        }
     });
 
     const lastCity = localStorage.getItem('lastCity');

@@ -103,6 +103,7 @@ body{
     font-family: 'poppins', sans-serif;
     font-size: 30px;
     transition: 900ms linear;
+    text-align: center;
 }
 
 .date{
