@@ -51,7 +51,7 @@ $(document).ready(function() {
                 forecastHtml += `
                     <div class="daily">
                         <p class="day">${date.toLocaleDateString('en-US', { weekday: 'long' })}</p>
-                        <img src="${iconUrl}" alt="Weather Icon">
+                        <img src="${iconUrl}">
                         <p class="range">${tempDisplay}</p>
                         <p class="description">${item.weather[0].description}</p>
                     </div>
@@ -157,9 +157,14 @@ $(document).ready(function() {
         }
     });
 
-    const availableCities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"];
-    $('#text-box').autocomplete({
-        source: availableCities
+    $.getJSON('cities.json', function(data) {
+        citiesList = data;
+        $('#text-box').autocomplete({
+            source: function(request, response) {
+                const results = $.ui.autocomplete.filter(citiesList, request.term);
+                response(results.slice(0, 5)); // limit results to 5
+            }
+        });
     });
 
     const lastCity = localStorage.getItem('lastCity');
