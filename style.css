@@ -238,3 +238,33 @@ footer{
     transition: 1000ms linear;
 }
 
+
+.ui-autocomplete {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.ui-autocomplete li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.ui-autocomplete li.ui-state-focus {
+    background-color: #eee;
+}
+
+body.dark-mode .ui-autocomplete {
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+}
+
+body.dark-mode .ui-autocomplete li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+body.dark-mode .ui-autocomplete li.ui-state-focus {
+    background-color: #555;
+}
