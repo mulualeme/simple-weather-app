@@ -36,7 +36,7 @@ body{
 .weather-detail{
     position: relative;
     left: -2%;
-    width: 420px;
+    width: 425px;
     height: 280px;
     background-color: #e7e7e7;
     border-radius: 15px;
@@ -171,7 +171,7 @@ body{
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 28px;
+    margin-top: 6px;
     margin-left: 10px;
     transition: 900ms linear;
 }
